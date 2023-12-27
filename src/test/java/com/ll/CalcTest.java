@@ -89,4 +89,22 @@ public class CalcTest {
   void t14() {
     assertThat(Calc.run("10 * 10 * 10")).isEqualTo(1000);
   }
+
+  @Test
+  @DisplayName("10 + 5 * 2 == 20")
+  void t15() {
+    assertThat(Calc.run("10 + 5 * 2")).isEqualTo(20);
+  }
+
+  @Test
+  @DisplayName("15 + 5 * 3 * 5 == 45")
+  void t16() {
+    assertThat(Calc.run("15 + 5 * 3 * 2")).isEqualTo(45);
+  }
+
+//  @Test
+//  @DisplayName("10 * 2 + 3 * 5 == 25")
+//  void t17() {
+//    assertThat(Calc.run("10 * 2 + 3 * 5")).isEqualTo(25);
+//  }
 }
