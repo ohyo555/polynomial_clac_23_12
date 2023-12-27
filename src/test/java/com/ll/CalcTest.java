@@ -97,14 +97,9 @@ public class CalcTest {
   }
 
   @Test
-  @DisplayName("15 + 5 * 3 * 5 == 45")
+  @DisplayName("(10 + 20) == 30")
   void t16() {
-    assertThat(Calc.run("15 + 5 * 3 * 2")).isEqualTo(45);
+    assertThat(Calc.run("(10 + 20)")).isEqualTo(30);
   }
 
-//  @Test
-//  @DisplayName("10 * 2 + 3 * 5 == 25")
-//  void t17() {
-//    assertThat(Calc.run("10 * 2 + 3 * 5")).isEqualTo(25);
-//  }
 }
