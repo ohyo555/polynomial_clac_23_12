@@ -6,7 +6,7 @@ public class Calc {
 
   public static int runCallCount = 0;
 
-  public static int run(String exp) { // -(10 + 5)
+  public static int run(String exp) { // -(8 + 2) * -(7 + 3) + 5
     runCallCount++;
 
     exp = exp.trim();
@@ -18,7 +18,9 @@ public class Calc {
       exp = changeNegativeBracket(exp, pos[0], pos[1]);
     }
     exp = stripOuterBracket(exp);
+
     if (recursionDebug) {
+
       System.out.printf("exp(%d) : %s\n", runCallCount, exp);
     }
 
@@ -31,8 +33,8 @@ public class Calc {
     boolean needToCompound = needToMultiply && needToPlus;
     boolean needToSplit = exp.contains("(") || exp.contains(")");
 
-    if (needToSplit) {  // -(10 + 5)
-
+    if (needToSplit) {
+      exp = exp.replaceAll("- ", "\\+ -");
       int splitPointIndex = findSplitPointIndex(exp);
 
       String firstExp = exp.substring(0, splitPointIndex);
@@ -47,7 +49,7 @@ public class Calc {
     } else if (needToCompound) {
       String[] bits = exp.split(" \\+ ");
 
-      return Integer.parseInt(bits[0]) + Calc.run(bits[1]); // TODO
+      return Integer.parseInt(bits[0]) + Calc.run(bits[1]);
     }
     if (needToPlus) {
       exp = exp.replaceAll("\\- ", "\\+ \\-");
@@ -87,11 +89,11 @@ public class Calc {
 
   private static int[] findNegativeCaseBracket(String exp) {
     for (int i = 0; i < exp.length() - 1; i++) {
-      if (exp.charAt(i) == '-' && exp.charAt(i + 1) == '(') { // -(로 된 애들을 찾으려고
+      if (exp.charAt(i) == '-' && exp.charAt(i + 1) == '(') {
         // 어? 마이너스 괄호 찾았다
         int bracketCount = 1;
 
-        for (int j = i + 2; j < exp.length(); j++) { // -(그 다음 인덱스부터 찾아야하니까 i + 2로 시작해서
+        for (int j = i + 2; j < exp.length(); j++) {
           char c = exp.charAt(j);
 
           if (c == '(') {
@@ -100,7 +102,7 @@ public class Calc {
             bracketCount--;
           }
 
-          if (bracketCount == 0) { // 그걸 정수 배열 형태로 담아줘
+          if (bracketCount == 0) {
             return new int[]{i, j};
           }
         }
@@ -157,19 +159,3 @@ public class Calc {
     return exp;
   }
 }
-
-
-//String exp = "-(8 + 2) * -(7 + 3) + 5";
-//
-//int startPos = 0;
-//int endPos = 7;
-//
-//String head = exp.substring(0, startPos);
-//String body = "(" + exp.substring(startPos + 1, endPos + 1) + " * -1)";
-//String tail = exp.substring(endPos + 1);
-//
-//    System.out.println("head : " + head);
-//    System.out.println("body : " + body);
-//    System.out.println("tail : " + tail);
-//
-//    System.out.println("전체 : " + head + body + tail);
