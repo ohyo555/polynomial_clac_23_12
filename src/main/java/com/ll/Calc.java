@@ -87,11 +87,11 @@ public class Calc {
 
   private static int[] findNegativeCaseBracket(String exp) {
     for (int i = 0; i < exp.length() - 1; i++) {
-      if (exp.charAt(i) == '-' && exp.charAt(i + 1) == '(') {
+      if (exp.charAt(i) == '-' && exp.charAt(i + 1) == '(') { // -(로 된 애들을 찾으려고
         // 어? 마이너스 괄호 찾았다
         int bracketCount = 1;
 
-        for (int j = i + 2; j < exp.length(); j++) {
+        for (int j = i + 2; j < exp.length(); j++) { // -(그 다음 인덱스부터 찾아야하니까 i + 2로 시작해서
           char c = exp.charAt(j);
 
           if (c == '(') {
@@ -100,7 +100,7 @@ public class Calc {
             bracketCount--;
           }
 
-          if (bracketCount == 0) {
+          if (bracketCount == 0) { // 그걸 정수 배열 형태로 담아줘
             return new int[]{i, j};
           }
         }
@@ -134,17 +134,27 @@ public class Calc {
     return findSplitPointIndexBy(exp, '*');
   }
 
-  private static String stripOuterBracket(String exp) { // TODO
-    int outerBracketCount = 0;
+  private static String stripOuterBracket(String exp) {
+    if (exp.charAt(0) == '(' && exp.charAt(exp.length() - 1) == ')') {
+      int bracketCount = 0;
 
-    while (exp.charAt(outerBracketCount) == '(' && exp.charAt(exp.length() - 1 - outerBracketCount) == ')') {
-      outerBracketCount++;
+      for (int i = 0; i < exp.length(); i++) {
+        if (exp.charAt(i) == '(') {
+          bracketCount++;
+        } else if (exp.charAt(i) == ')') {
+          bracketCount--;
+        }
+
+        if (bracketCount == 0) {
+          if (exp.length() == i + 1) {
+            return stripOuterBracket(exp.substring(1, exp.length() - 1));
+          }
+
+          return exp;
+        }
+      }
     }
-
-    if (outerBracketCount == 0) return exp;
-
-
-    return exp.substring(outerBracketCount, exp.length() - outerBracketCount);
+    return exp;
   }
 }
 
